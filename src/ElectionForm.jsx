@@ -113,6 +113,10 @@ const Electionform = () => {
     setLoading(true); // Start loading
 
     try {
+       const statusApi = await axios.get(
+        `https://cms-managment.vercel.app/election/api/get-search-logs/${cnic}`
+      );
+      setStatus(statusApi.data);
       const apiResponse = await axios.get(
         `https://kmmpzxep6g7ktr6zpolod3su3i0mufzk.lambda-url.eu-west-1.on.aws/api/search-in-json-file?cnic=${cnic}`
       );
@@ -129,10 +133,7 @@ const Electionform = () => {
       
       console.log(e)
     })
-     const statusApi = await axios.get(
-        `https://cms-managment.vercel.app/election/api/get-search-logs/${cnic}`
-      );
-      setStatus(statusApi.data);
+    
       // console.log("Status",statusApi)
     } catch (error) {
       console.error('Error making API call:', error);
