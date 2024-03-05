@@ -240,7 +240,8 @@ const Electionform = () => {
              <div className='text-[18px]'>{response['CNIC']}</div>
            </div>
            {
-            status.hasData ?( <div>
+            status.hasData ?(    
+              ''):( <div>
                         <div className='font-bold text-gray-700 text-[18px] text-right' dir='rtl'>
                           کیا آپ کو آپ کی ادائیگی موصول ہوئی ہے؟
                         </div>
@@ -271,8 +272,7 @@ const Electionform = () => {
                             
                           </div>
 
-                        </div>):(    
-              '')
+                        </div>)
            }
         </div>
         )
