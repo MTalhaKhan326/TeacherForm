@@ -59,6 +59,9 @@ const Electionform = () => {
   }
   const submitYess = async(e)=>{
      console.log("Yesss")
+     
+     setModalMessage(`آپ کا جواب دینا کا بہت شکریہ`);
+    setShowModal(true);
      const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
       const requestBody = {
          "interested_in_more_work": true
@@ -71,6 +74,9 @@ const Electionform = () => {
   }
   const submitNoo = async(e)=>{
     console.log("Noooo")
+    
+     setModalMessage(`آپ کا جواب دینا کا بہت شکریہ`);
+    setShowModal(true);
     const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
       const requestBody = {
          "interested_in_more_work": false
