@@ -29,13 +29,57 @@ const Electionform = () => {
   
   const [loading, setLoading] = useState(false); // Added loading state
   
-  const submitYes = (e)=>{
+  const submitYes = async(e)=>{
      setModalMessage(`آپ کا جواب دینا کا بہت شکریہ`);
     setShowModal(true);
+     const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
+      const requestBody = {
+         "payment_received": true,
+         "interested_in_more_work": true
+    };
+    await axios.put(apiUrl, requestBody).then(res => {
+      console.log("Resss",res.data.message)
+    }).catch(e => {
+      console.log(e)
+    })
   }
-  const submitNo = (e)=>{
+  const submitNo = async(e)=>{
     // setModalMessage(`آپ کا جواب دینا کا بہت شکریہ ہم جلد ہی آپ سے رابطہ کریں گے۔`);
     setShowModal1(true);
+    const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
+      const requestBody = {
+         "payment_received": false,
+         "interested_in_more_work": true
+    };
+    await axios.put(apiUrl, requestBody).then(res => {
+      console.log("Resss",res.data.message)
+    }).catch(e => {
+      console.log(e)
+    })
+  }
+  const submitYess = async(e)=>{
+     console.log("Yesss")
+     const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
+      const requestBody = {
+         "interested_in_more_work": true
+    };
+    await axios.put(apiUrl, requestBody).then(res => {
+      console.log("Resss",res.data.message)
+    }).catch(e => {
+      console.log(e)
+    })
+  }
+  const submitNoo = async(e)=>{
+    console.log("Noooo")
+    const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
+      const requestBody = {
+         "interested_in_more_work": false
+    };
+    await axios.put(apiUrl, requestBody).then(res => {
+      console.log("Resss",res.data.message)
+    }).catch(e => {
+      console.log(e)
+    })
   }
 
   const closeModal = () => {
@@ -196,8 +240,7 @@ const Electionform = () => {
              <div className='text-[18px]'>{response['CNIC']}</div>
            </div>
            {
-            status.hasData ?(    
-              ''):( <div>
+            status.hasData ?( <div>
                         <div className='font-bold text-gray-700 text-[18px] text-right' dir='rtl'>
                           کیا آپ کو آپ کی ادائیگی موصول ہوئی ہے؟
                         </div>
@@ -213,8 +256,23 @@ const Electionform = () => {
                           onClick={submitYes}> ہاں</div>
                             
                           </div>
+                           <div className='font-bold text-gray-700 text-[18px] text-right mt-7' dir='rtl'> کیا اپ چاہتے ہیں کہ مزید کم وقت کا کام اپ کو دیا جائے
+                        </div>
+                        <div className='flex flex-row justify-between mx-[70px] my-2'>
+                          <div
+                          className='bg-red-500 text-white w-[25%] rounded-md text-center font-semibold py-2 cursor-pointer hover:bg-red-400'
+                        onClick={submitNoo}
+                          >
+                            نہیں
+                          </div>
 
-                        </div>)
+                            <div className='bg-green-500 text-white w-[25%] rounded-md text-center font-semibold py-2 cursor-pointer hover:bg-green-400'
+                          onClick={submitYess}> ہاں</div>
+                            
+                          </div>
+
+                        </div>):(    
+              '')
            }
         </div>
         )
@@ -246,31 +304,31 @@ const Electionform = () => {
         }}
       >
         {
-          modalMessage1 === '' ? ( < form onSubmit={handleSubmit1} className="max-w-md mx-auto px-4">
+          modalMessage1 === '' ? ( < form onSubmit={handleSubmit1} className="max-w-md mx-auto px-4" dir='rtl'>
           <div className="mb-4">
            <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
-             Name
+             نام
            </label>
            <input
              type="text"
             id="name"
              name="name"
-             placeholder='name'
+             placeholder='نام'
              value={formdata.name}
              onChange={handleInputChange}
              className={`w-full p-2 border ${errors.name && 'border-red-500'}`}
            />
            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
          </div>
-         <div className="mb-4">
-           <label htmlFor="cnic" className="block text-gray-700 text-sm font-bold mb-2">
-             Cnic
+         <div className="mb-4" >
+           <label htmlFor="cnic" className="block text-gray-700 text-sm font-bold mb-2 " >
+             شناختی کارڈ نمبر
            </label>
            <input
              type="text"
              id="cnic"
              name="cnic"
-             placeholder='cnic'
+             placeholder='شناختی کارڈ نمبر'
              value={formdata.cnic}
              onChange={handleInputChange}
              className={`w-full p-2 border ${errors.cnic && 'border-red-500'}`}
@@ -279,13 +337,13 @@ const Electionform = () => {
          </div>
          <div className="mb-4">
            <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">
-             Phone
+             فون نمبر
            </label>
            <input
              type="number"
              id="phone"
              name="phone"
-             placeholder='phone'
+             placeholder='فون نمبر'
              value={formdata.phone}
              onChange={handleInputChange}
              className={`w-full p-2 border ${errors.phone && 'border-red-500'}`}
