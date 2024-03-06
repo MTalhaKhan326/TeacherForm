@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import AppImages from './assets/image';
 import axios from 'axios';
 import Loading from './Components/basic/Loading';
+import FlutterInterface from './utils/flutter_interface';
 
 
 const Electionform = () => {
@@ -339,7 +340,7 @@ const Electionform = () => {
   };
    const handleButtonClick = (phone) => {
       console.log("phoneee",phone)
-      window.location.href = `tel:${phone}`;
+      FlutterInterface.openDialer(phone);
     };
   return (
     <div className="container mx-auto mt-8">
@@ -361,7 +362,7 @@ const Electionform = () => {
           <div className='w-[20%] flex flex-col'>
                <div
                     className=" rounded-full bg-green-800 ml-7 mt-7 w-9 h-9 cursor-pointer"
-                    onClick={() => handleButtonClick('03000000000000')}
+                    onClick={() => handleButtonClick('+92 42 99210621')}
                   >
                     <img
                       src={AppImages.phone}
