@@ -150,13 +150,14 @@ const Electionform = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setformData({ ...formdata, [name]: value });
-    // setErrors({ ...errors, [name]: '' });
+    setErrors({ ...errors, [name]: '' });
   };
   const handleInputChange1 = (e) => {
-    const { name, value } = e.target;
-    setformData1({ ...formdata, [name]: value });
-    // setErrors({ ...errors, [name]: '' });
-  };
+  const { name, value } = e.target;
+  setformData1({ ...formdata1, [name]: value });
+  setErrors1({ ...errors1, [name]: '' }); // You may want to clear errors when the input changes
+};
+
 
   
 
@@ -255,16 +256,18 @@ const Electionform = () => {
 
   const handleSubmitform = async (e) => {
     e.preventDefault();
+    console.log("Hiiiiiiiii")
 
    const newErrors = {};
-  Object.keys(formdata1).forEach((key) => {
-    if (!formdata1[key]) {
-      newErrors[key] = 'This field is required';
-    }
-  });
+  //  Object.keys(formdata1).forEach((key) => {
+  //   if (!formdata1[key]) {
+  //     newErrors[key] = 'This field is required';
+  //     console.log("Errror")
+  //   }
+  // });
 
   if (Object.keys(newErrors).length > 0) {
-    setErrors(newErrors);
+    setErrors1(newErrors);
     return;
   }
     
@@ -439,7 +442,8 @@ const Electionform = () => {
         }}
       >
         {
-          modalMessage1 === '' ? ( < form onSubmit={handleSubmitform} className="max-w-md mx-auto px-4" dir='rtl'>
+          modalMessage1 === '' ? ( 
+          < form onSubmit={handleSubmitform} className="max-w-md mx-auto px-4" dir='rtl'>
           <div className="mb-4">
            <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
              نام
@@ -451,9 +455,9 @@ const Electionform = () => {
              placeholder='نام'
              value={formdata1.name}
              onChange={handleInputChange1}
-             className={`w-full p-2 border ${errors.name && 'border-red-500'}`}
+             className={`w-full p-2 border ${errors1.name && 'border-red-500'}`}
            />
-           {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+           {errors1.name && <p className="text-red-500 text-xs mt-1">{errors1.name}</p>}
          </div>
          <div className="mb-4" >
            <label htmlFor="cnic" className="block text-gray-700 text-sm font-bold mb-2 " >
@@ -466,9 +470,9 @@ const Electionform = () => {
              placeholder='شناختی کارڈ نمبر'
              value={formdata1.cnic}
              onChange={handleInputChange1}
-             className={`w-full p-2 border ${errors.cnic && 'border-red-500'}`}
+             className={`w-full p-2 border ${errors1.cnic && 'border-red-500'}`}
            />
-           {errors.cnic && <p className="text-red-500 text-xs mt-1">{errors.cnic}</p>}
+           {errors1.cnic && <p className="text-red-500 text-xs mt-1">{errors1.cnic}</p>}
          </div>
          <div className="mb-4">
            <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">
@@ -481,9 +485,9 @@ const Electionform = () => {
              placeholder='فون نمبر'
              value={formdata1.phone}
              onChange={handleInputChange1}
-             className={`w-full p-2 border ${errors.phone && 'border-red-500'}`}
+             className={`w-full p-2 border ${errors1.phone && 'border-red-500'}`}
            />
-           {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+           {errors1.phone && <p className="text-red-500 text-xs mt-1">{errors1.phone}</p>}
          </div>
          <div className="flex items-center justify-between">
            <button
