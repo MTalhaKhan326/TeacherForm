@@ -109,11 +109,12 @@ const Electionform = () => {
     })
   }
   const submitNo = async(e)=>{
-    setModalMessage(`آپ کا جواب دینا کا بہت شکریہ ہم جلد ہی آپ سے رابطہ کریں گے۔`);
-    setShowModal1(true);
-    const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
+    setModalMessage(`اپ کا جواب دینے کا بہت شکریہ اپ کو اس کے متعلق جلد اگاہ کر دیا جائے گا`);
+    //  setModalMessage(`آپ کا جواب دینا کا بہت شکریہ`);
+    setShowModal(true);
+     const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
       const requestBody = {
-         "payment_received": false,
+         "payment_received": true,
          "interested_in_more_work": true
     };
     await axios.put(apiUrl, requestBody).then(res => {
@@ -340,7 +341,7 @@ const Electionform = () => {
   };
    const handleButtonClick = (phone) => {
       console.log("phoneee",phone)
-      FlutterInterface.openDialer(phone);
+       FlutterInterface.openDialer(phone);
     };
   return (
     <div className="container mx-auto mt-8">
@@ -372,7 +373,7 @@ const Electionform = () => {
                       style={{ filter: "brightness(5) invert(1)" }}
                     />
                   </div>
-                  <div>
+                  {/* <div>
                      <img
                     src={AppImages.heart}
                     alt=""
@@ -382,7 +383,7 @@ const Electionform = () => {
                     // style={{ filter: 'brightness(5) invert(1)' }}
                     onClick={handleHeartClick}
                   />
-                  </div>
+                  </div> */}
                   
           </div>
         </div>
@@ -440,7 +441,7 @@ const Electionform = () => {
          </div>}
         </form>
         {
-          response === '' ? (<div> <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+          response === '' ? (<div> <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-[40px]">
         <div className=" text-blue-500 p-2 font-bold text-[18px] hover:text-blue-400" onClick={() => handleGovernmentClick('Punjab Government')}>
            Punjab Government
         </div>
@@ -677,9 +678,8 @@ const Electionform = () => {
           },
         }}
       >
-        {/* {
-          modalMessage1 === '' ? ( 
-          < form onSubmit={handleSubmit1} className="max-w-md mx-auto px-4" dir='rtl'>
+        {
+          modalMessage1 === '' ? ( < form onSubmit={handleSubmit1} className="max-w-md mx-auto px-4" dir='rtl'>
           <div className="mb-4">
            <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
              نام
@@ -748,12 +748,12 @@ const Electionform = () => {
             {loading ? <Loading /> :  'Submit'}
            </button>
          </div>
-         </form>):( */}
+         </form>):(
           <div className='text-center'>
             <div className='font-semibold text-slate-600 text-[18px]'>{modalMessage1}</div>
           </div>
-         {/* ) */}
-        {/* } */}
+         )
+        }
       
         {/* <div className="text-center"> */}
           {/*  */}
