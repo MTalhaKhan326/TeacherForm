@@ -44,6 +44,54 @@ const Electionform = () => {
   })
   
   const [loading, setLoading] = useState(false); // Added loading state
+
+   const [government, setGovernment] = useState('');
+  const [subButtons, setSubButtons] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleHeartClick = () => {
+    console.log("Heartttttt")
+    setIsLiked((prevIsLiked) => !prevIsLiked);
+  };
+
+  const handleGovernmentClick = (governmentName) => {
+    // Define sub-buttons based on the selected government
+    let buttons = [];
+    if (governmentName === 'Punjab Government') {
+      buttons = [
+        { name: 'NADRA', url: 'https://www.nadra.gov.pk/national-identity-card/' },
+        { name: 'Passport', url: 'https://onlinemrp.dgip.gov.pk/' },
+        { name: 'Election', url: 'https://ecp.gov.pk/general-elections-2024' },
+        { name: 'Education', url: 'https://punjab.gov.pk/boards_punjab' },
+        { name: 'Driving License', url: 'https://dlims.punjab.gov.pk/elicense' },
+      ];
+    } else if (governmentName === 'Sindh Government') {
+      buttons = [
+        { name: 'NADRA', url: 'https://www.nadra.gov.pk/national-identity-card/' },
+        { name: 'Passport', url: 'https://onlinemrp.dgip.gov.pk/' },
+        { name: 'Election', url: 'https://ecp.gov.pk/general-elections-2024' },
+        { name: 'Education', url: 'https://www.bsek.edu.pk/' },
+      ];
+    }else if (governmentName === 'KPK Government') {
+      buttons = [
+        { name: 'NADRA', url: 'https://www.nadra.gov.pk/national-identity-card/' },
+        { name: 'Passport', url: 'https://onlinemrp.dgip.gov.pk/' },
+        { name: 'Election', url: 'https://ecp.gov.pk/general-elections-2024' },
+        { name: 'Education', url: 'https://kpese.gov.pk/category/notifications/' },
+      ];
+    }
+    else if (governmentName === 'Balochistan Government') {
+      buttons = [
+        { name: 'NADRA', url: 'https://www.nadra.gov.pk/national-identity-card/' },
+        { name: 'Passport', url: 'https://onlinemrp.dgip.gov.pk/' },
+        { name: 'Election', url: 'https://ecp.gov.pk/general-elections-2024' },
+        { name: 'Education', url: 'http://www.emis.gob.pk/website/Default.aspx' },
+      ];
+    }
+    // Update state to show sub-buttons
+    setGovernment(governmentName);
+    setSubButtons(buttons);
+  };
   
   const submitYes = async(e)=>{
      setModalMessage(`آپ کا جواب دینا کا بہت شکریہ`);
@@ -73,20 +121,7 @@ const Electionform = () => {
       console.log(e)
     })
   }
-   const submitListNo = async(e)=>{
-     setModalMessage(`آپ کا جواب دینا کا بہت شکریہ`);
-    setShowModal(true);
-     const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
-      const requestBody = {
-         "payment_received": true,
-         "interested_in_more_work": true
-    };
-    await axios.put(apiUrl, requestBody).then(res => {
-      console.log("Resss",res.data.message)
-    }).catch(e => {
-      console.log(e)
-    })
-  }
+   
   const submitListYes = async(e)=>{
     // setModalMessage(`آپ کا جواب دینا کا بہت شکریہ ہم جلد ہی آپ سے رابطہ کریں گے۔`);
     setShowModal2(true);
@@ -302,14 +337,57 @@ const Electionform = () => {
       setLoading(false); // Stop loading regardless of success or failure
     }
   };
-
+   const handleButtonClick = (phone) => {
+      console.log("phoneee",phone)
+      window.location.href = `tel:${phone}`;
+    };
   return (
     <div className="container mx-auto mt-8">
         
       <form onSubmit={handleSubmit} className="max-w-md mx-auto px-4">
-       <div className="flex justify-center">
-          <img src={AppImages.ec} alt="" className='mx-auto w-[30%]'/>
+        <div className='w-full flex flex-row'>
+          <div className='w-[80%] '>
+             <div className="flex flex-col my-6">
+          {/* <img src={AppImages.ec} alt="" className='mx-auto w-[30%]'/> */}
+          <div className='text-green-800 font-bold text-[22px]'>
+            Election Comission 
+          </div>
+          <div className='text-green-800 font-bold text-[22px]'>
+            Payments Update 
+          </div>
+          
        </div>
+          </div>
+          <div className='w-[20%] flex flex-col'>
+               <div
+                    className=" rounded-full bg-green-800 ml-7 mt-7 w-9 h-9 cursor-pointer"
+                    onClick={() => handleButtonClick('03000000000000')}
+                  >
+                    <img
+                      src={AppImages.phone}
+                      alt=""
+                      
+                      className="rounded-full w-[60%] ml-[6px] mt-[6px] text-white"
+                      style={{ filter: "brightness(5) invert(1)" }}
+                    />
+                  </div>
+                  <div>
+                     <img
+                    src={AppImages.heart}
+                    alt=""
+                    className={`w-9 h-9  mt-[6px] rounded-full ml-7 p-1 text-white cursor-pointer border-s-white border-white ${
+                      isLiked ? 'bg-red-500' : 'bg-gray-300'
+                    }`}
+                    // style={{ filter: 'brightness(5) invert(1)' }}
+                    onClick={handleHeartClick}
+                  />
+                  </div>
+                  
+          </div>
+        </div>
+        
+
+       
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2 text-left" htmlFor="cnic">
@@ -361,7 +439,34 @@ const Electionform = () => {
          </div>}
         </form>
         {
-          response === '' ? (''):
+          response === '' ? (<div> <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+        <div className=" text-blue-500 p-2 font-bold text-[18px] hover:text-blue-400" onClick={() => handleGovernmentClick('Punjab Government')}>
+           Punjab Government
+        </div>
+        <div className=" text-blue-500 p-2 font-bold text-[18px] hover:text-blue-400" onClick={() => handleGovernmentClick('Sindh Government')}>
+          Sindh Government
+        </div>
+        <div className=" text-blue-500 p-2 font-bold text-[18px] hover:text-blue-400" onClick={() => handleGovernmentClick('KPK Government')}>
+          KPK Government
+        </div>
+        <div className=" text-blue-500 p-2 font-bold text-[18px] hover:text-blue-400" onClick={() => handleGovernmentClick('Balochistan Government')}>
+          Balochistan Government
+        </div>
+        {/* Add buttons for other governments */}
+      </div>
+
+      {subButtons.length > 0 && (
+        <div className="mt-4">
+          <p className="text-lg font-bold mx-3">{government} Service Institutes:</p>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2">
+            {subButtons.map((button, index) => (
+              <button key={index} className="bg-green-800 text-white p-2 mx-3 rounded-md" onClick={() => window.location.href = button.url}>
+                {button.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}</div>):
           (   
         
              <div className='flex flex-col max-w-md mx-auto px-4 text-left'>
@@ -395,7 +500,7 @@ const Electionform = () => {
                           onClick={submitYes}> ہاں</div>
                             
                           </div>
-                           <div className='font-bold text-gray-700 text-[18px] text-right mt-7' dir='rtl'> کیا آپ الیکشن کمیشن کے لیے اگے کام کرنا چاہتے ہیں
+                           <div className='font-bold text-gray-700 text-[18px] text-right mt-7' dir='rtl'> کیا اپ مستقبل میں الیکشن کمیشن کے لیے مزید کام کرنا چاہیں گے
                         </div>
                         <div className='flex flex-row justify-between mx-[70px] my-2'>
                           <div
