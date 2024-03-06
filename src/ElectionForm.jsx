@@ -109,18 +109,18 @@ const Electionform = () => {
     })
   }
   const submitNo = async(e)=>{
-    // setModalMessage(`آپ کا جواب دینا کا بہت شکریہ ہم جلد ہی آپ سے رابطہ کریں گے۔`);
+    setModalMessage(`آپ کا جواب دینا کا بہت شکریہ ہم جلد ہی آپ سے رابطہ کریں گے۔`);
     setShowModal1(true);
-    const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
-      const requestBody = {
-         "payment_received": false,
-         "interested_in_more_work": true
-    };
-    await axios.put(apiUrl, requestBody).then(res => {
-      console.log("Resss",res.data.message)
-    }).catch(e => {
-      console.log(e)
-    })
+    // const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
+    //   const requestBody = {
+    //      "payment_received": false,
+    //      "interested_in_more_work": true
+    // };
+    // await axios.put(apiUrl, requestBody).then(res => {
+    //   console.log("Resss",res.data.message)
+    // }).catch(e => {
+    //   console.log(e)
+    // })
   }
    
   const submitListYes = async(e)=>{
@@ -372,7 +372,7 @@ const Electionform = () => {
                       style={{ filter: "brightness(5) invert(1)" }}
                     />
                   </div>
-                  <div>
+                  {/* <div>
                      <img
                     src={AppImages.heart}
                     alt=""
@@ -382,7 +382,7 @@ const Electionform = () => {
                     // style={{ filter: 'brightness(5) invert(1)' }}
                     onClick={handleHeartClick}
                   />
-                  </div>
+                  </div> */}
                   
           </div>
         </div>
@@ -440,7 +440,7 @@ const Electionform = () => {
          </div>}
         </form>
         {
-          response === '' ? (<div> <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+          response === '' ? (<div> <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-[60px]">
         <div className=" text-blue-500 p-2 font-bold text-[18px] hover:text-blue-400" onClick={() => handleGovernmentClick('Punjab Government')}>
            Punjab Government
         </div>
