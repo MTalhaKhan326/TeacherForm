@@ -9,8 +9,10 @@ import Loading from './Components/basic/Loading';
 const Electionform = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [modalMessage1, setModalMessage1] = useState('');
+  const [modalForm, setModalForm] = useState('');
   const [cnic, setCnic] = useState('');
   const [message, setMessage] = useState('');
   const [response , setResponse] = useState('');
@@ -18,13 +20,27 @@ const Electionform = () => {
   const [formdata , setformData] = useState({
     name:'',
     cnic:'',
-    phone:''
+    phone:'',
+    city:'',
   })
 
   const [errors , setErrors] = useState({
     name:'',
     cnic:'',
-    phone:''
+    phone:'',
+    city:''
+  })
+  const [formdata1 , setformData1] = useState({
+    name:'',
+    cnic:'',
+    phone:'',
+    
+  })
+
+  const [errors1 , setErrors1] = useState({
+    name:'',
+    cnic:'',
+    phone:'',
   })
   
   const [loading, setLoading] = useState(false); // Added loading state
@@ -46,6 +62,34 @@ const Electionform = () => {
   const submitNo = async(e)=>{
     // setModalMessage(`آپ کا جواب دینا کا بہت شکریہ ہم جلد ہی آپ سے رابطہ کریں گے۔`);
     setShowModal1(true);
+    const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
+      const requestBody = {
+         "payment_received": false,
+         "interested_in_more_work": true
+    };
+    await axios.put(apiUrl, requestBody).then(res => {
+      console.log("Resss",res.data.message)
+    }).catch(e => {
+      console.log(e)
+    })
+  }
+   const submitListNo = async(e)=>{
+     setModalMessage(`آپ کا جواب دینا کا بہت شکریہ`);
+    setShowModal(true);
+     const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
+      const requestBody = {
+         "payment_received": true,
+         "interested_in_more_work": true
+    };
+    await axios.put(apiUrl, requestBody).then(res => {
+      console.log("Resss",res.data.message)
+    }).catch(e => {
+      console.log(e)
+    })
+  }
+  const submitListYes = async(e)=>{
+    // setModalMessage(`آپ کا جواب دینا کا بہت شکریہ ہم جلد ہی آپ سے رابطہ کریں گے۔`);
+    setShowModal2(true);
     const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
       const requestBody = {
          "payment_received": false,
@@ -98,9 +142,19 @@ const Electionform = () => {
     setShowModal1(false);
     // setModalMessage('');
   };
+  const closeModal2 = () => {
+  // window.location.reload();
+    setShowModal2(false);
+    // setModalMessage('');
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setformData({ ...formdata, [name]: value });
+    // setErrors({ ...errors, [name]: '' });
+  };
+  const handleInputChange1 = (e) => {
+    const { name, value } = e.target;
+    setformData1({ ...formdata, [name]: value });
     // setErrors({ ...errors, [name]: '' });
   };
 
@@ -144,10 +198,12 @@ const Electionform = () => {
     } catch (error) {
       console.error('Error making API call:', error);
       setMessage("Record not found")
+      setModalForm('open')
     } finally {
       setLoading(false); // Stop loading regardless of success or failure
     }
   };
+ 
 
 
    const handleSubmit1 = async (e) => {
@@ -173,7 +229,8 @@ const Electionform = () => {
       const requestBody = {
       "name":formdata.name,
       "phone":formdata.phone,
-      "cnic": formdata.cnic
+      "cnic": formdata.cnic,
+      "city":formdata.city
     };
     await axios.post(apiUrl, requestBody).then(res => {
       console.log("Resss",res.data.message)
@@ -181,6 +238,53 @@ const Electionform = () => {
         // setShowModal1(false);
         setModalMessage1('شکریہ ہماری ٹیم آپ سے جلد رابطہ کرے گی')
         setformData({
+        name:'',
+        cnic:'',
+        phone:''
+        })
+      }
+    }).catch(e => {
+      console.log(e)
+    })
+    } catch (error) {
+      console.error('Error making API call:', error);
+    } finally {
+      setLoading(false); // Stop loading regardless of success or failure
+    }
+  };
+
+  const handleSubmitform = async (e) => {
+    e.preventDefault();
+
+   const newErrors = {};
+  Object.keys(formdata1).forEach((key) => {
+    if (!formdata1[key]) {
+      newErrors[key] = 'This field is required';
+    }
+  });
+
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
+    
+       setLoading(true); // Start loading
+    // Perform API request here
+    try {
+        console.log("FormDataaa",formdata1)
+      const apiUrl = "https://cms-managment.vercel.app/election/api/create/search-teacher";
+      const requestBody = {
+      "name":formdata1.name,
+      "phone":formdata1.phone,
+      "cnic": formdata1.cnic,
+      "city":''
+    };
+    await axios.post(apiUrl, requestBody).then(res => {
+      console.log("Resss",res.data.message)
+      if(res.data.message){
+        // setShowModal1(false);
+        setModalMessage1('شکریہ ہماری ٹیم آپ سے جلد رابطہ کرے گی')
+        setformData1({
         name:'',
         cnic:'',
         phone:''
@@ -227,7 +331,31 @@ const Electionform = () => {
             {loading ? <Loading /> : 'Search'}
           </button>
         </div>
-         {message && <p className="text-red-500 text-[16px] italic">{message}</p>}
+         {message &&
+          <div>
+            <p className="text-red-500 text-[16px] italic">{message}</p>
+            {
+              modalForm === 'open' ? (<div>
+                    <div className='font-bold text-gray-700 text-[18px] text-right' dir='rtl'>
+                          اگر آپ کا نام سرچ میں شو نہیں ہو رہا تو یہاں کلک کریں؟  <span className='text-blue-600 font-semibold hover:text-blue-500 ' onClick={submitListYes}>ClickHere</span> 
+                        </div>
+                        {/* <div className='flex flex-row justify-between mx-[70px] my-2'>
+                          <div
+                          className='bg-red-500 text-white w-[25%] rounded-md text-center font-semibold py-2 cursor-pointer hover:bg-red-400'
+                        onClick={submitListNo}
+                          >
+                            نہیں
+                          </div>
+
+                            <div className='bg-green-500 text-white w-[25%] rounded-md text-center font-semibold py-2 cursor-pointer hover:bg-green-400'
+                          > ہاں</div>
+                            
+                          </div> */}
+              </div>):('')
+            }
+            
+         
+         </div>}
         </form>
         {
           response === '' ? (''):
@@ -264,7 +392,7 @@ const Electionform = () => {
                           onClick={submitYes}> ہاں</div>
                             
                           </div>
-                           <div className='font-bold text-gray-700 text-[18px] text-right mt-7' dir='rtl'> کیا اپ چاہتے ہیں کہ مزید کم وقت کا کام اپ کو دیا جائے
+                           <div className='font-bold text-gray-700 text-[18px] text-right mt-7' dir='rtl'> کیا آپ الیکشن کمیشن کے لیے اگے کام کرنا چاہتے ہیں
                         </div>
                         <div className='flex flex-row justify-between mx-[70px] my-2'>
                           <div
@@ -287,6 +415,135 @@ const Electionform = () => {
            <Modal
         isOpen={showModal1}
         onRequestClose={closeModal1}
+        contentLabel="Payment S"
+        // className="modal"
+        // overlayClassName="overlay"
+        style={{
+          overlay: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginLeft: '10px',
+            marginRight: '10px',
+          },
+          content: {
+            position: 'relative',
+            top: 'auto',
+            left: 'auto',
+            right: 'auto',
+            bottom: 'auto',
+            maxWidth: '400px',
+            width: '100%',
+            transform: 'none',
+          },
+        }}
+      >
+        {
+          modalMessage1 === '' ? ( < form onSubmit={handleSubmitform} className="max-w-md mx-auto px-4" dir='rtl'>
+          <div className="mb-4">
+           <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
+             نام
+           </label>
+           <input
+             type="text"
+            id="name"
+             name="name"
+             placeholder='نام'
+             value={formdata1.name}
+             onChange={handleInputChange1}
+             className={`w-full p-2 border ${errors.name && 'border-red-500'}`}
+           />
+           {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+         </div>
+         <div className="mb-4" >
+           <label htmlFor="cnic" className="block text-gray-700 text-sm font-bold mb-2 " >
+             شناختی کارڈ نمبر
+           </label>
+           <input
+             type="text"
+             id="cnic"
+             name="cnic"
+             placeholder='شناختی کارڈ نمبر'
+             value={formdata1.cnic}
+             onChange={handleInputChange1}
+             className={`w-full p-2 border ${errors.cnic && 'border-red-500'}`}
+           />
+           {errors.cnic && <p className="text-red-500 text-xs mt-1">{errors.cnic}</p>}
+         </div>
+         <div className="mb-4">
+           <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">
+             فون نمبر
+           </label>
+           <input
+             type="number"
+             id="phone"
+             name="phone"
+             placeholder='فون نمبر'
+             value={formdata1.phone}
+             onChange={handleInputChange1}
+             className={`w-full p-2 border ${errors.phone && 'border-red-500'}`}
+           />
+           {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+         </div>
+         <div className="flex items-center justify-between">
+           <button
+            type="submit"
+             className="bg-green-800 w-full hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+           >
+            {loading ? <Loading /> :  'Submit'}
+           </button>
+         </div>
+         </form>):(
+          <div className='text-center'>
+            <div className='font-semibold text-slate-600 text-[18px]'>{modalMessage1}</div>
+          </div>
+         )
+        }
+      
+        {/* <div className="text-center"> */}
+          {/*  */}
+          <button onClick={closeModal1} className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-400">
+            Close
+          </button>
+        {/* </div> */}
+      </Modal>
+
+       <Modal
+        isOpen={showModal}
+        onRequestClose={closeModal}
+        contentLabel="Payment S"
+        // className="modal"
+        // overlayClassName="overlay"
+        style={{
+          overlay: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginLeft: '10px',
+            marginRight: '10px',
+          },
+          content: {
+            position: 'relative',
+            top: 'auto',
+            left: 'auto',
+            right: 'auto',
+            bottom: 'auto',
+            maxWidth: '400px',
+            width: '100%',
+            transform: 'none',
+          },
+        }}
+      >
+        <div className="text-center">
+          <div className='font-semibold text-slate-600 text-[18px]'>{modalMessage}</div>
+          <button onClick={closeModal} className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-400">
+            Close
+          </button>
+        </div>
+      </Modal>
+        <Modal
+        isOpen={showModal2}
+        onRequestClose={closeModal2}
         contentLabel="Payment S"
         // className="modal"
         // overlayClassName="overlay"
@@ -357,6 +614,21 @@ const Electionform = () => {
            />
            {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
          </div>
+         <div className="mb-4">
+           <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">
+              شہر
+           </label>
+           <input
+             type="text"
+             id="city"
+             name="city"
+             placeholder=' شہر'
+             value={formdata.city}
+             onChange={handleInputChange}
+             className={`w-full p-2 border ${errors.city && 'border-red-500'}`}
+           />
+           {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
+         </div>
          <div className="flex items-center justify-between">
            <button
             type="submit"
@@ -374,43 +646,10 @@ const Electionform = () => {
       
         {/* <div className="text-center"> */}
           {/*  */}
-          <button onClick={closeModal1} className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-400">
+          <button onClick={closeModal2} className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-400">
             Close
           </button>
         {/* </div> */}
-      </Modal>
-       <Modal
-        isOpen={showModal}
-        onRequestClose={closeModal}
-        contentLabel="Payment S"
-        // className="modal"
-        // overlayClassName="overlay"
-        style={{
-          overlay: {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginLeft: '10px',
-            marginRight: '10px',
-          },
-          content: {
-            position: 'relative',
-            top: 'auto',
-            left: 'auto',
-            right: 'auto',
-            bottom: 'auto',
-            maxWidth: '400px',
-            width: '100%',
-            transform: 'none',
-          },
-        }}
-      >
-        <div className="text-center">
-          <div className='font-semibold text-slate-600 text-[18px]'>{modalMessage}</div>
-          <button onClick={closeModal} className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-400">
-            Close
-          </button>
-        </div>
       </Modal>
       
     </div>
