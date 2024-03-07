@@ -122,7 +122,15 @@ const FlutterInterface = {
     } catch(e) {
       return null 
     }
-  }
+  },
+  goToMap: async (lat ,lng) => {
+    try {
+      return callHandler('goToMapScreen', [lat , lng])
+    } catch(e) {
+      return null 
+    }
+  },
+
 };
 
 export default FlutterInterface

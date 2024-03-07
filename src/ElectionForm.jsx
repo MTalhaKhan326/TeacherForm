@@ -5,6 +5,9 @@ import AppImages from './assets/image';
 import axios from 'axios';
 import Loading from './Components/basic/Loading';
 import FlutterInterface from './utils/flutter_interface';
+import { MdFavoriteBorder } from "react-icons/md";
+import { MdOutlineFavorite } from "react-icons/md";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 
 const Electionform = () => {
@@ -51,7 +54,11 @@ const Electionform = () => {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleHeartClick = () => {
-    console.log("Heartttttt")
+    console.log("Heartttttt Favourite")
+    setIsLiked((prevIsLiked) => !prevIsLiked);
+  };
+  const handleHeartClick1 = () => {
+    console.log("Heartttttt UnFavourite")
     setIsLiked((prevIsLiked) => !prevIsLiked);
   };
 
@@ -339,6 +346,10 @@ const Electionform = () => {
       setLoading(false); // Stop loading regardless of success or failure
     }
   };
+  const handleMapClick = (lat ,lng) => {
+      console.log("lat",lat, "lng",lng)
+       FlutterInterface.goToMap(lat , lng);
+    };
    const handleButtonClick = (phone) => {
       console.log("phoneee",phone)
        FlutterInterface.openDialer(phone);
@@ -351,10 +362,10 @@ const Electionform = () => {
           <div className='w-[80%] '>
              <div className="flex flex-col my-6">
           {/* <img src={AppImages.ec} alt="" className='mx-auto w-[30%]'/> */}
-          <div className='text-green-800 font-bold text-[22px]'>
+          <div className='text-green-800 font-bold text-[25px]'>
             Election Comission 
           </div>
-          <div className='text-green-800 font-bold text-[22px]'>
+          <div className='text-green-800 font-bold text-[25px]'>
             Payments Update 
           </div>
           
@@ -362,7 +373,7 @@ const Electionform = () => {
           </div>
           <div className='w-[20%] flex flex-col'>
                <div
-                    className=" rounded-full bg-green-800 ml-7 mt-7 w-9 h-9 cursor-pointer"
+                    className=" rounded-full bg-green-800 ml-7 my-7 mb-3 w-8 h-8 cursor-pointer"
                     onClick={() => handleButtonClick('+92 42 99210621')}
                   >
                     <img
@@ -373,17 +384,29 @@ const Electionform = () => {
                       style={{ filter: "brightness(5) invert(1)" }}
                     />
                   </div>
-                  {/* <div>
-                     <img
-                    src={AppImages.heart}
-                    alt=""
-                    className={`w-9 h-9  mt-[6px] rounded-full ml-7 p-1 text-white cursor-pointer border-s-white border-white ${
-                      isLiked ? 'bg-red-500' : 'bg-gray-300'
-                    }`}
-                    // style={{ filter: 'brightness(5) invert(1)' }}
-                    onClick={handleHeartClick}
-                  />
-                  </div> */}
+                  <div>
+                    {isLiked ? <MdOutlineFavorite style={{
+          fontSize: '33px',
+          color: isLiked ? 'red' : 'transparent',
+          cursor: 'pointer',
+          marginLeft:"27px"
+                      }} onClick={handleHeartClick1}/> : <MdFavoriteBorder style={{
+                        fontSize: '33px',
+                        // color: isLiked ? 'red' : 'transparent',
+                        cursor: 'pointer',
+                        marginLeft:"27px"
+                      }}  onClick={handleHeartClick}/>}
+               
+                  </div>
+                  <div>
+                    <FaMapMarkerAlt style={{
+                      fontSize: '33px',
+                      // color: isLiked ? 'red' : 'transparent',
+                      cursor: 'pointer',
+                      marginLeft:"27px",
+                      marginTop:"6px"
+                      }} onClick={()=>handleMapClick('31.5626183','74.3015855')}/>
+                  </div>
                   
           </div>
         </div>
