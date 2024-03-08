@@ -84,7 +84,7 @@ const Electionform = () => {
       buttons = [
         { name: 'NADRA', url: 'https://www.nadra.gov.pk/national-identity-card/' },
         { name: 'Passport', url: 'https://onlinemrp.dgip.gov.pk/' },
-        { name: 'Election', url: 'https://ecp.gov.pk/general-elections-2024' },
+        { name: 'Election Commission', url: 'https://ecp.gov.pk/general-elections-2024' },
         { name: 'FBR', url: 'https://www.fbr.gov.pk/' },
         { name: 'FPSC', url: 'https://www.fpsc.gov.pk/' },
       ];
