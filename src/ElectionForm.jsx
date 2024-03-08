@@ -1,5 +1,5 @@
 // Electionform.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from "react-modal";
 import AppImages from './assets/image';
 import axios from 'axios';
@@ -52,7 +52,10 @@ const Electionform = () => {
    const [government, setGovernment] = useState('');
   const [subButtons, setSubButtons] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+  useEffect(() => {
+    document.title = 'سرکار آپ کی دہلیز پر';
 
+  }, []);
   const handleHeartClick = () => {
     console.log("Heartttttt Favourite")
     setIsLiked((prevIsLiked) => !prevIsLiked);
