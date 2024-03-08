@@ -67,33 +67,43 @@ const Electionform = () => {
     let buttons = [];
     if (governmentName === 'Punjab Government') {
       buttons = [
-        { name: 'NADRA', url: 'https://www.nadra.gov.pk/national-identity-card/' },
-        { name: 'Passport', url: 'https://onlinemrp.dgip.gov.pk/' },
-        { name: 'Election', url: 'https://ecp.gov.pk/general-elections-2024' },
+        { name: 'Punjab Government', url: 'https://punjab.gov.pk/' },
+        { name: 'PPSC', url: 'https://ppsc.gop.pk/(S(2nuctdt3lms1viusopipsosd))/default.aspx' },
+        { name: 'Punjab Police', url: 'https://punjabpolice.gov.pk/' },
+        { name: 'Punjab Health Care', url: 'https://pshealthpunjab.gov.pk/' },
         { name: 'Education', url: 'https://punjab.gov.pk/boards_punjab' },
         { name: 'Driving License', url: 'https://dlims.punjab.gov.pk/elicense' },
       ];
-    } else if (governmentName === 'Sindh Government') {
+    }
+    else if (governmentName === 'Federal Government') {
       buttons = [
         { name: 'NADRA', url: 'https://www.nadra.gov.pk/national-identity-card/' },
         { name: 'Passport', url: 'https://onlinemrp.dgip.gov.pk/' },
         { name: 'Election', url: 'https://ecp.gov.pk/general-elections-2024' },
+        { name: 'FBR', url: 'https://www.fbr.gov.pk/' },
+        { name: 'FPSC', url: 'https://www.fpsc.gov.pk/' },
+      ];
+    } else if (governmentName === 'Sindh Government') {
+      buttons = [
+        { name: 'Sindh Government', url: 'https://www.sindh.gov.pk/' },
+        { name: 'Driving License', url: 'https://dls.gos.pk/' },
+        { name: 'SPSC', url: 'https://spsc.gos.pk/' },
         { name: 'Education', url: 'https://www.bsek.edu.pk/' },
+        { name: 'Sindh Police', url: 'https://www.sindhpolice.gov.pk/' },
       ];
     }else if (governmentName === 'KPK Government') {
       buttons = [
-        { name: 'NADRA', url: 'https://www.nadra.gov.pk/national-identity-card/' },
-        { name: 'Passport', url: 'https://onlinemrp.dgip.gov.pk/' },
-        { name: 'Election', url: 'https://ecp.gov.pk/general-elections-2024' },
+        { name: 'KPK Government', url: 'https://kp.gov.pk/' },
         { name: 'Education', url: 'https://kpese.gov.pk/category/notifications/' },
+        { name: 'KPPSC', url: 'https://kppsc.gov.pk/' },
+        { name: 'CMKP', url: 'https://cmkp.gov.pk/' },
       ];
     }
     else if (governmentName === 'Balochistan Government') {
       buttons = [
-        { name: 'NADRA', url: 'https://www.nadra.gov.pk/national-identity-card/' },
-        { name: 'Passport', url: 'https://onlinemrp.dgip.gov.pk/' },
-        { name: 'Election', url: 'https://ecp.gov.pk/general-elections-2024' },
+        { name: 'Balochistan Government', url: 'https://balochistan.gov.pk/' },
         { name: 'Education', url: 'http://www.emis.gob.pk/website/Default.aspx' },
+        { name: 'BPSC', url: 'https://bpsc.gob.pk/' },
       ];
     }
     // Update state to show sub-buttons
@@ -386,10 +396,10 @@ const Electionform = () => {
                   </div>
                   <div>
                     {isLiked ? <MdOutlineFavorite style={{
-          fontSize: '33px',
-          color: isLiked ? 'red' : 'transparent',
-          cursor: 'pointer',
-          marginLeft:"27px"
+                      fontSize: '33px',
+                      color: isLiked ? 'red' : 'transparent',
+                      cursor: 'pointer',
+                      marginLeft:"27px"
                       }} onClick={handleHeartClick1}/> : <MdFavoriteBorder style={{
                         fontSize: '33px',
                         // color: isLiked ? 'red' : 'transparent',
@@ -465,6 +475,9 @@ const Electionform = () => {
         </form>
         {
           response === '' ? (<div> <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-[40px]">
+        <div className=" text-blue-500 p-2 font-bold text-[18px] hover:text-blue-400" onClick={() => handleGovernmentClick('Federal Government')}>
+           Federal Government
+        </div>
         <div className=" text-blue-500 p-2 font-bold text-[18px] hover:text-blue-400" onClick={() => handleGovernmentClick('Punjab Government')}>
            Punjab Government
         </div>
