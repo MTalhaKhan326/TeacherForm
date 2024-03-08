@@ -56,6 +56,8 @@ const Electionform = () => {
   const handleHeartClick = () => {
     console.log("Heartttttt Favourite")
     setIsLiked((prevIsLiked) => !prevIsLiked);
+     FlutterInterface.addToFavorite();
+    
   };
   const handleHeartClick1 = () => {
     console.log("Heartttttt UnFavourite")
@@ -357,8 +359,9 @@ const Electionform = () => {
     }
   };
   const handleMapClick = (lat ,lng) => {
-      console.log("lat",lat, "lng",lng)
-       FlutterInterface.goToMap(lat , lng);
+    const latlng = `${lat},${lng}`
+      console.log("lat",lat, "lng",lng , latlng )
+       FlutterInterface.openGoogleMap(latlng);
     };
    const handleButtonClick = (phone) => {
       console.log("phoneee",phone)
@@ -372,10 +375,10 @@ const Electionform = () => {
           <div className='w-[80%] '>
              <div className="flex flex-col my-6">
           {/* <img src={AppImages.ec} alt="" className='mx-auto w-[30%]'/> */}
-          <div className='text-green-800 font-bold text-[25px]'>
+          <div className='text-green-800 font-bold text-[30px]'>
             Election Comission 
           </div>
-          <div className='text-green-800 font-bold text-[25px]'>
+          <div className='text-green-800 font-bold text-[30px]'>
             Payments Update 
           </div>
           

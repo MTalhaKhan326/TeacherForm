@@ -95,6 +95,16 @@ const FlutterInterface = {
       return null;
     }
   },
+  addToFavorite: async () => {
+    try {
+      return callHandler('addToFavorite', [{
+        type: 'marker',
+        type_id: '65deedcd9135274171b0faa5',
+      }])
+    } catch(e) {
+      return null 
+    }
+  },
   share: async (text) => {
     try {
       return callHandler("openShareDialog", [text]);
@@ -123,13 +133,14 @@ const FlutterInterface = {
       return null 
     }
   },
-  goToMap: async (lat ,lng) => {
+  
+  openGoogleMap: async (latlng) => {
     try {
-      return callHandler('goToMapScreen', [lat , lng])
+      return callHandler('openGoogleMap', [latlng])
     } catch(e) {
       return null 
     }
-  },
+  }
 
 };
 
