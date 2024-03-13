@@ -238,11 +238,12 @@ const Electionform = () => {
       );
       setStatus(statusApi.data);
       const apiResponse = await axios.get(
-        `https://kmmpzxep6g7ktr6zpolod3su3i0mufzk.lambda-url.eu-west-1.on.aws/api/search-in-json-file?cnic=${cnic}`
+        `https://kmmpzxep6g7ktr6zpolod3su3i0mufzk.lambda-url.eu-west-1.on.aws/api/search-in-json-file-new?cnic=${cnic}`
+        // `https://kmmpzxep6g7ktr6zpolod3su3i0mufzk.lambda-url.eu-west-1.on.aws/api/search-in-json-file?cnic=${cnic}`
       );
      
       setResponse(apiResponse.data);
-      console.log('API Responseee',apiResponse)
+      console.log('API Responseee',apiResponse.data)
       const apiUrl = "https://cms-managment.vercel.app/election/api/create/search-teacher-logs";
       const requestBody = {
       "cnic": cnic
@@ -374,7 +375,9 @@ const Electionform = () => {
     <div className="container mx-auto mt-8">
         
       <form onSubmit={handleSubmit} className="max-w-md mx-auto px-4">
+           <div className='font-bold text-[20px] text-center text-gray-600'>سرکار آپ کی دہلیز پر</div>
         <div className='w-full flex flex-row'>
+       
           <div className='w-[80%] '>
              <div className="flex flex-col my-6">
           {/* <img src={AppImages.ec} alt="" className='mx-auto w-[30%]'/> */}
@@ -512,19 +515,116 @@ const Electionform = () => {
         </div>
       )}</div>):
           (   
-        
-             <div className='flex flex-col max-w-md mx-auto px-4 text-left'>
+        <>
+        {
+          response.length > 1 ? (  
+          <div className='flex flex-col max-w-md mx-auto px-4 text-left'>
            <div className='flex flex-col py-2'>
              <div className='font-bold text-gray-700 text-[18px]'>Name : </div>
-             <div className='text-[18px]'>{response['Name of Officer / Official']}</div>
+             <div className='text-[18px]'>{response[0].result['Name of Officer / Official']}</div>
            </div>
            <div className='flex flex-col py-2'>
              <div className='font-bold text-gray-700 text-[18px]'>Phone number : </div>
-             <div className='text-[18px]'>{response['Mobile No.']}</div>
+             <div className='text-[18px]'>{response[0].result['Mobile No.']}</div>
            </div>
            <div className='flex flex-col py-2'>
              <div className='font-bold text-gray-700 text-[18px]'>Cnic : </div>
-             <div className='text-[18px]'>{response['CNIC']}</div>
+             <div className='text-[18px]'>{response[0].result['CNIC']}</div>
+           </div>
+           <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'>Category : </div>
+             <div className='text-[18px]'>{response[0].result['Category']}</div>
+           </div>
+           <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'>(2024) Serial number : </div>
+             <div className='text-[18px]'>{response[0].result['Sr. No.']}</div>
+           </div>
+           <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'>(2023) Serial number : </div>
+             <div className='text-[18px]'>{response[1].result['Sr. No.']}</div>
+           </div>
+           
+           {
+            status.hasData ?(    
+              ''):( <div>
+                        <div className='font-bold text-gray-700 text-[18px] text-right' dir='rtl'>
+                          کیا آپ کو آپ کی ادائیگی موصول ہوئی ہے؟
+                        </div>
+                        <div className='flex flex-row justify-between mx-[70px] my-2'>
+                          <div
+                          className='bg-red-500 text-white w-[25%] rounded-md text-center font-semibold py-2 cursor-pointer hover:bg-red-400'
+                        onClick={submitNo}
+                          >
+                            نہیں
+                          </div>
+
+                            <div className='bg-green-500 text-white w-[25%] rounded-md text-center font-semibold py-2 cursor-pointer hover:bg-green-400'
+                          onClick={submitYes}> ہاں</div>
+                            
+                          </div>
+                           <div className='font-bold text-gray-700 text-[18px] text-right mt-7' dir='rtl'> کیا اپ مستقبل میں الیکشن کمیشن کے لیے مزید کام کرنا چاہیں گے
+                        </div>
+                        <div className='flex flex-row justify-between mx-[70px] my-2'>
+                          <div
+                          className='bg-red-500 text-white w-[25%] rounded-md text-center font-semibold py-2 cursor-pointer hover:bg-red-400'
+                        onClick={submitNoo}
+                          >
+                            نہیں
+                          </div>
+
+                            <div className='bg-green-500 text-white w-[25%] rounded-md text-center font-semibold py-2 cursor-pointer hover:bg-green-400'
+                          onClick={submitYess}> ہاں</div>
+                            
+                          </div>
+
+                        </div>)
+           }
+        </div>):(
+            <div className='flex flex-col max-w-md mx-auto px-4 text-left'>
+              {
+                response[0].result['Name of Officer / Official'] ? (
+                   <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'>Name : </div>
+             <div className='text-[18px]'>{response[0].result['Name of Officer / Official']}</div>
+           </div>
+                ):(
+                   <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'>Name : </div>
+             <div className='text-[18px]'>{response[0].result['Name']}</div>
+           </div>
+                )
+              }
+         {
+          response[0].result['Mobile No.'] ? ( <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'>Phone number : </div>
+             <div className='text-[18px]'>{response[0].result['Mobile No.']}</div>
+           </div>):( <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'>Phone number : </div>
+             <div className='text-[18px]'>{response[0].result['Cell No.']}</div>
+           </div>)
+         }
+          
+           <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'>Cnic : </div>
+             <div className='text-[18px]'>{response[0].result['CNIC']}</div>
+           </div>
+           {
+            response[0].result['Category']?(
+              <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'>Category : </div>
+             <div className='text-[18px]'>{response[0].result['Category']}</div>
+           </div>
+            ):(
+              <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'>Category : </div>
+             <div className='text-[18px]'>{response[0].result['Place of Posting']}</div>
+           </div>
+            )
+           }
+           
+           <div className='flex flex-col py-2'>
+             <div className='font-bold text-gray-700 text-[18px]'> Serial number : </div>
+             <div className='text-[18px]'>{response[0].result['Sr. No.']}</div>
            </div>
            {
             status.hasData ?(    
@@ -562,6 +662,11 @@ const Electionform = () => {
                         </div>)
            }
         </div>
+        )
+        }
+       </>
+        
+            
         )
         }
            <Modal
