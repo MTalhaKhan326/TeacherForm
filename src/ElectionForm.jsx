@@ -8,9 +8,12 @@ import FlutterInterface from './utils/flutter_interface';
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdOutlineFavorite } from "react-icons/md";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { useLocation } from 'react-router-dom';
 
 
 const Electionform = () => {
+  const tuid = useLocation();
+  console.log("Tuid",tuid)
   const [showModal, setShowModal] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
@@ -55,6 +58,25 @@ const Electionform = () => {
   useEffect(() => {
     document.title = 'سرکار آپ کی دہلیز پر';
 
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://rogvftzrsuaealt3f7htqchmfa0zfumz.lambda-url.eu-west-1.on.aws/favorites/is-favorite?uuid=${tuid}&marker_id=65deedcd9135274171b0faa5`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log("Dataaaa",data.data.isFav)
+        setIsLiked(data.data.isFav)
+        // setIsFavorite(data.isFavorite); // Assuming the response has a property 'isFavorite'
+      } catch (error) {
+        console.error('There was a problem fetching the data:', error);
+      }
+    };
+
+    fetchData();
   }, []);
   const handleHeartClick = () => {
     console.log("Heartttttt Favourite")
@@ -424,7 +446,7 @@ const Electionform = () => {
                       cursor: 'pointer',
                       marginLeft:"27px",
                       marginTop:"6px"
-                      }} onClick={()=>handleMapClick('31.5626183','74.3015855')}/>
+                      }} onClick={()=>handleMapClick('31.562376', '74.304257')}/>
                   </div>
                   
           </div>
