@@ -144,7 +144,7 @@ const Electionform = () => {
      const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
       const requestBody = {
          "payment_received": true,
-         "interested_in_more_work": true
+         "interested_in_more_work": true,
     };
     await axios.put(apiUrl, requestBody).then(res => {
       console.log("Resss",res.data.message)
@@ -189,8 +189,10 @@ const Electionform = () => {
     setShowModal(true);
      const apiUrl = `https://cms-managment.vercel.app/election/api/update-log-report/${cnic}`;
       const requestBody = {
-         "interested_in_more_work": true
+         "interested_in_more_work": true,
+         "uuid":tuid
     };
+    console.log("requestBodyyy",requestBody)
     await axios.put(apiUrl, requestBody).then(res => {
       console.log("Resss",res.data.message)
     }).catch(e => {
